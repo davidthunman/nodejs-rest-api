@@ -199,6 +199,91 @@ const swaggerDocument = {
         },
       },
     },
+    "/users": {
+      get: {
+        summary: "Get all users",
+        tags: ["Users"],
+        responses: {
+          200: {
+            description: "List of all users",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: {
+                    $ref: "#/components/schemas/User",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/users/register": {
+      post: {
+        summary: "Register a new user",
+        tags: ["Users"],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/User",
+              },
+            },
+          },
+        },
+        responses: {
+          201: {
+            description: "User registered successfully",
+          },
+          400: {
+            description: "Bad request",
+          },
+        },
+      },
+    },
+    "/users/login": {
+      post: {
+        summary: "Login a user",
+        tags: ["Users"],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  email: { type: "string" },
+                  password: { type: "string" },
+                },
+                required: ["email", "password"],
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Login successful",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string" },
+                    token: { type: "string" },
+                  },
+                },
+              },
+            },
+          },
+          401: {
+            description: "Invalid credentials",
+          },
+        },
+      },
+    },
   },
   components: {
     schemas: {
@@ -222,6 +307,21 @@ const swaggerDocument = {
           },
         },
         required: ["title", "author"],
+      },
+      User: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+          },
+          email: {
+            type: "string",
+          },
+          password: {
+            type: "string",
+          },
+        },
+        required: ["name", "email", "password"],
       },
     },
   },

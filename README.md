@@ -36,6 +36,8 @@ npm install
 ```
 PORT=3000
 MONGO_URI=mongodb://localhost:27017/booksdb
+JWT_SECRET=secret
+JWT_LIFETIME=2d
 ```
 
 ## Run development server
