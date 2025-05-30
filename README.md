@@ -14,7 +14,7 @@ Make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (v22 or later)
 - [npm](https://www.npmjs.com/)
-- [MongoDB](https://www.mongodb.com/try/download/community) (running locally or a connection URI)
+- [Docker](https://www.docker.com)
 
 ## Installation
 
@@ -22,50 +22,34 @@ Make sure you have the following installed:
 
 ```
 git clone https://github.com/davidthunman/nodejs-rest-api.git
-cd nodejs-rest-api
 ```
 
-2. Install dependencies:
+## Run development server
+
+1. Install dependencies:
 
 ```
 npm install
 ```
 
-3. Create a `.env` file in the root directory and add the following environment variables:
+2. Launch MongoDB as a Docker container:
 
 ```
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/booksdb
-JWT_SECRET=secret
-JWT_LIFETIME=2d
+docker run -d -p 27017:27017 --name=mongodb mongo
 ```
 
-## Run development server
-
-1. Start the MongoDB server (if running locally):
-
-```
-mongod
-```
-
-2. Run the application in development mode:
+3. Start the NodeJS application
 
 ```
 npm run dev
 ```
 
-## Run the production server
+## Run in production
 
-1. Run the build task:
-
-```
-npm run build
-```
-
-2. Start the production server:
+1. Execute the Docker compose file
 
 ```
-npm start
+ docker compose up --detach
 ```
 
 ## API Documentation
@@ -78,7 +62,7 @@ The API documentation is available at: http://localhost:3000/api-docs
 
 ```
 PORT=3001
-MONGO_URI=mongodb://localhost:27017/booksdb_Test
+MONGO_URI=mongodb://localhost:27017/booksdb_test
 ```
 
 2. Run the test suite using:

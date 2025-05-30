@@ -21,6 +21,15 @@ export interface UserModel extends Model<UserDocument> {
   ) => Promise<HydratedDocument<UserDocument>>;
 }
 
+const emailValidator = {
+  validator: (email: string): boolean => {
+    return !!email.match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );
+  },
+  message: "Please provide a valid email.",
+};
+
 const userSchema = new Schema<UserDocument>({
   name: {
     type: String,
@@ -32,10 +41,9 @@ const userSchema = new Schema<UserDocument>({
   },
   email: {
     type: String,
-    match: [
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      "Please provide a valid email.",
-    ],
+    validate: emailValidator,
+    required: [true, "Please provide an email"],
+    trim: true,
     unique: true,
   },
   password: {
